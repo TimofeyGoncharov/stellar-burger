@@ -1,28 +1,32 @@
-import { forwardRef } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { TIngredientsCategoryProps } from './type';
+import { constructorSelector } from 'src/services/mozaikaBurger';
+import { useSelector } from 'react-redux';
+import { TIngredient } from '@utils-types';
+import { IngredientsCategoryUI } from '../ui/ingredients-category';
 
 export const IngredientsCategory = forwardRef<
   HTMLUListElement,
   TIngredientsCategoryProps
->(
-  ({ title, titleRef, ingredients }, ref) =>
-    // const ingredientsCounters = useMemo(() => {
-    //   const counters: { [key: string]: number } = {};
-    //   ingredients.forEach((ingredient: TIngredient) => {
-    //     if (!counters[ingredient._id]) counters[ingredient._id] = 0;
-    //     counters[ingredient._id]++;
-    //   });
-    //   if (bun) counters[bun._id] = 2;
-    //   return counters;
-    // }, [burgerConstructor]);
+>(({ title, titleRef, ingredients }, ref) => {
+  const burgerConstructor = useSelector(constructorSelector.selectItems);
 
-    // <IngredientsCategoryUI
-    //   title={title}
-    //   titleRef={titleRef}
-    //   ingredients={ingredients}
-    //   ingredientsCounters={ingredientsCounters}
-    //   ref={ref}
-    // />
+  const ingredientsCounters = useMemo(() => {
+    const { bun, ingredients } = burgerConstructor;
+    const counters: { [key: string]: number } = {};
+    ingredients.forEach((ingredient: TIngredient) => {
+      if (!counters[ingredient._id]) counters[ingredient._id] = 0;
+      counters[ingredient._id]++;
+    });
+    if (bun) counters[bun._id] = 2;
+    return counters;
+  }, [burgerConstructor]);
 
-    null
-);
+  <IngredientsCategoryUI
+    title={title}
+    titleRef={titleRef}
+    ingredients={ingredients}
+    ingredientsCounters={ingredientsCounters}
+    ref={ref}
+  />;
+});
