@@ -1,16 +1,16 @@
 import { FC, useEffect } from 'react';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
   getIngredientsList,
   getIngredientsState
-} from 'src/services/ingredients';
-import { AppDispatch } from 'src/services/store';
+} from '../../services/IngredientsSlice';
+import { useParams } from 'react-router-dom';
+import { useDispatch } from '../../services/store';
 
 export const IngredientDetails: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
 
   const { ingredients } = useSelector(getIngredientsState);
 

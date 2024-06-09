@@ -1,9 +1,9 @@
 import { FC, useEffect, useMemo, useState } from 'react';
-import { OrderInfoUI } from '../ui/order-info';
 import { Preloader } from '../ui/preloader';
+import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient, TOrder } from '@utils-types';
-import { useSelector } from 'react-redux';
-import { getIngredients } from 'src/services/ingredients';
+import { useSelector } from '../../services/store';
+import { getIngredients } from '../../services/IngredientsSlice';
 import { useParams } from 'react-router-dom';
 import { getOrderByNumberApi } from '@api';
 
@@ -21,7 +21,6 @@ export const OrderInfo: FC = () => {
   const id = Number(useParams().number);
   const ingredients: TIngredient[] = useSelector(getIngredients);
 
-  /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;
 

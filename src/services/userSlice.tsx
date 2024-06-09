@@ -1,12 +1,13 @@
-import {
-  getUserApi,
-  loginUserApi,
-  logoutApi,
-  registerUserApi,
-  updateUserApi
-} from '@api';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
 import { TUser } from '@utils-types';
+import {
+  registerUserApi,
+  loginUserApi,
+  getUserApi,
+  updateUserApi,
+  logoutApi
+} from '@api';
 
 export const register = createAsyncThunk('user/register', registerUserApi);
 export const login = createAsyncThunk('user/login', loginUserApi);

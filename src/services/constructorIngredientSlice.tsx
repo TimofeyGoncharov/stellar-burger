@@ -12,8 +12,8 @@ const initialState: TConstructorState = {
   ingredients: []
 };
 
-export const mozaikaBurgerSlice = createSlice({
-  name: 'mozaikaBurger',
+export const constructorSlice = createSlice({
+  name: 'constructorIngredient',
   initialState,
   reducers: {
     addItem: {
@@ -45,5 +45,5 @@ export const mozaikaBurgerSlice = createSlice({
 });
 
 export const { addItem, deleteItem, clearAll, updateAll } =
-  mozaikaBurgerSlice.actions;
-export const constructorSelector = mozaikaBurgerSlice.selectors;
+  constructorSlice.actions;
+export const constructorSelector = constructorSlice.selectors;

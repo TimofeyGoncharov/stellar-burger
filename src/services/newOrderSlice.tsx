@@ -1,8 +1,13 @@
-import { orderBurgerApi } from '@api';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
 import { TOrder } from '@utils-types';
 
-export const order = createAsyncThunk('order/createOrder', orderBurgerApi);
+import { orderBurgerApi } from '@api';
+
+export const placeNewOrder = createAsyncThunk(
+  'order/createOrder',
+  orderBurgerApi
+);
 
 export interface TNewOrderState {
   orderRequest: boolean;
@@ -16,11 +21,11 @@ const initialState: TNewOrderState = {
   error: undefined
 };
 
-export const newOrder = createSlice({
+export const newOrderSlice = createSlice({
   name: 'newOrder',
   initialState,
   reducers: {
-    resetOrder: () => initialState
+    resetOrder: (state) => initialState
   },
   selectors: {
     getOrderRequest: (state) => state.orderRequest,
@@ -28,18 +33,18 @@ export const newOrder = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(order.fulfilled, (state, action) => {
+      .addCase(placeNewOrder.fulfilled, (state, action) => {
         state.orderRequest = false;
         state.orderModalData = action.payload.order;
       })
-      .addCase(order.rejected, (state, action) => {
+      .addCase(placeNewOrder.rejected, (state, action) => {
         state.error = action.error.message;
       })
-      .addCase(order.pending, (state) => {
+      .addCase(placeNewOrder.pending, (state) => {
         state.orderRequest = true;
       });
   }
 });
 
-export const { resetOrder } = newOrder.actions;
-export const { getOrderRequest, getOrderModalData } = newOrder.selectors;
+export const { resetOrder } = newOrderSlice.actions;
+export const { getOrderRequest, getOrderModalData } = newOrderSlice.selectors;

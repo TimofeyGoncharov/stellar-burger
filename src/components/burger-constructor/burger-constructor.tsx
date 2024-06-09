@@ -3,13 +3,16 @@ import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { clearAll, constructorSelector } from 'src/services/mozaikaBurger';
+import {
+  clearAll,
+  constructorSelector
+} from '../../services/constructorIngredientSlice';
 import {
   getOrderModalData,
   getOrderRequest,
   resetOrder
-} from 'src/services/order';
-import { isAuthCheckedSelector } from 'src/services/user';
+} from '../../services/newOrderSlice';
+import { isAuthCheckedSelector } from '../../services/userSlice';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();

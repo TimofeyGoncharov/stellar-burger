@@ -2,12 +2,13 @@ import { FC, memo } from 'react';
 import { BurgerConstructorElementUI } from '@ui';
 import { BurgerConstructorElementProps } from './type';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { TConstructorIngredient } from '@utils-types';
 import {
   constructorSelector,
   deleteItem,
   updateAll
-} from 'src/services/mozaikaBurger';
-import { TConstructorIngredient } from '@utils-types';
+} from '../../services/constructorIngredientSlice';
 
 export const BurgerConstructorElement: FC<BurgerConstructorElementProps> = memo(
   ({ ingredient, index, totalItems }) => {

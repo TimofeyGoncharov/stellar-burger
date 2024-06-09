@@ -2,12 +2,12 @@ import { FC } from 'react';
 
 import { TOrder } from '@utils-types';
 import { FeedInfoUI } from '../ui/feed-info';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/store';
 import {
   getOrdersFeeds,
   getTotalFeeds,
   getTotalTodayFeeds
-} from 'src/services/feed';
+} from '../../services/feedsSlice';
 
 const getOrders = (orders: TOrder[], status: string): number[] =>
   orders
@@ -30,7 +30,7 @@ export const FeedInfo: FC = () => {
       pendingOrders={pendingOrders}
       feed={{
         total: totalFeeds,
-        totalFeeds: totalToday
+        totalToday: totalToday
       }}
     />
   );

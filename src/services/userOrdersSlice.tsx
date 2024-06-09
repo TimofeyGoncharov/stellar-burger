@@ -1,8 +1,10 @@
-import { getOrdersApi } from '@api';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
 import { TOrder } from '@utils-types';
 
-export const uersOrder = createAsyncThunk('orders/ofUser', getOrdersApi);
+import { getOrdersApi } from '@api';
+
+export const getUserOrders = createAsyncThunk('orders/ofUser', getOrdersApi);
 
 export interface TOrdersState {
   orders: Array<TOrder>;
@@ -23,14 +25,14 @@ export const userOrdersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(uersOrder.fulfilled, (state, action) => {
+      .addCase(getUserOrders.fulfilled, (state, action) => {
         state.orders = action.payload;
         state.isLoading = false;
       })
-      .addCase(uersOrder.pending, (state) => {
+      .addCase(getUserOrders.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(uersOrder.rejected, (state) => {
+      .addCase(getUserOrders.rejected, (state) => {
         state.isLoading = false;
       });
   }

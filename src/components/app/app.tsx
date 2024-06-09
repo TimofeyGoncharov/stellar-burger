@@ -4,7 +4,6 @@ import styles from './app.module.css';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { apiGetUser } from 'src/services/user';
 import { useEffect } from 'react';
 import {
   ConstructorPage,
@@ -17,7 +16,9 @@ import {
   Register,
   ResetPassword
 } from '@pages';
-import { ProtectedRoute } from 'src/protect-route/protect-route';
+import { ProtectedRoute } from '../../protect-route/protect-route';
+import { getIngredientsList } from '../../services/IngredientsSlice';
+import { apiGetUser } from '../../services/userSlice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const App = () => {
   const background = location.state?.background;
 
   useEffect(() => {
-    dispatch(ingredients());
+    dispatch(getIngredientsList());
     dispatch(apiGetUser());
   }, []);
 
@@ -131,6 +132,3 @@ const App = () => {
 };
 
 export default App;
-function ingredients(): any {
-  throw new Error('Function not implemented.');
-}

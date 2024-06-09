@@ -1,9 +1,9 @@
 import { forwardRef, useMemo } from 'react';
 import { TIngredientsCategoryProps } from './type';
-import { constructorSelector } from 'src/services/mozaikaBurger';
-import { useSelector } from 'react-redux';
 import { TIngredient } from '@utils-types';
 import { IngredientsCategoryUI } from '../ui/ingredients-category';
+import { useSelector } from 'react-redux';
+import { constructorSelector } from '../../services/constructorIngredientSlice';
 
 export const IngredientsCategory = forwardRef<
   HTMLUListElement,
@@ -22,11 +22,13 @@ export const IngredientsCategory = forwardRef<
     return counters;
   }, [burgerConstructor]);
 
-  <IngredientsCategoryUI
-    title={title}
-    titleRef={titleRef}
-    ingredients={ingredients}
-    ingredientsCounters={ingredientsCounters}
-    ref={ref}
-  />;
+  return (
+    <IngredientsCategoryUI
+      title={title}
+      titleRef={titleRef}
+      ingredients={ingredients}
+      ingredientsCounters={ingredientsCounters}
+      ref={ref}
+    />
+  );
 });
