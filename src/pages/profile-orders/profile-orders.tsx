@@ -8,7 +8,6 @@ import {
 import { useDispatch, useSelector } from '../../services/store';
 
 export const ProfileOrders: FC = () => {
-  /** TODO: взять переменную из стора */
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserOrders());

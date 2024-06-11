@@ -6,7 +6,6 @@ import { getAllFeeds, getOrdersFeeds } from '../../services/slices/feedsSlice';
 import { useDispatch, useSelector } from '../../services/store';
 
 export const Feed: FC = () => {
-  /** TODO: взять переменную из стора */
   const dispatch = useDispatch();
 
   useEffect(() => {

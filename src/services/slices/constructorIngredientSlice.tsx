@@ -1,7 +1,5 @@
-import { getFeedsApi, getIngredientsApi } from '@api';
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { TConstructorIngredient, TIngredient } from '@utils-types';
-import { useSelector } from 'react-redux';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { TConstructorIngredient } from '@utils-types';
 import { v4 as uuidv4 } from 'uuid';
 
 type TConstructorState = {
