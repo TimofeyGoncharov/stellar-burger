@@ -1,10 +1,3 @@
-import { useDispatch } from '../../services/store';
-import '../../index.css';
-import styles from './app.module.css';
-
-import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 import {
   ConstructorPage,
   Feed,
@@ -16,9 +9,17 @@ import {
   Register,
   ResetPassword
 } from '@pages';
-import { ProtectedRoute } from '../../protect-route/protect-route';
-import { getIngredientsList } from '../../services/IngredientsSlice';
-import { apiGetUser } from '../../services/userSlice';
+import '../../index.css';
+import styles from './app.module.css';
+
+import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
+
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { ProtectedRoute } from '../protected-route';
+import { useDispatch } from '../../services/store';
+import { useEffect } from 'react';
+import { getIngredientsList } from '../../services/slices/IngredientsSlice';
+import { apiGetUser } from '../../services/slices/userSlice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -130,5 +131,4 @@ const App = () => {
     </div>
   );
 };
-
 export default App;

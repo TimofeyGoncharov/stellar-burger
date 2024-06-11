@@ -7,7 +7,7 @@ import {
   getOrdersFeeds,
   getTotalFeeds,
   getTotalTodayFeeds
-} from '../../services/feedsSlice';
+} from '../../services/slices/feedsSlice';
 
 const getOrders = (orders: TOrder[], status: string): number[] =>
   orders

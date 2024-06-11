@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import {
   getIngredientsList,
   getIngredientsState
-} from '../../services/IngredientsSlice';
+} from '../../services/slices/IngredientsSlice';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from '../../services/store';
 

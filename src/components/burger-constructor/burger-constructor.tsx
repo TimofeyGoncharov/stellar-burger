@@ -1,18 +1,19 @@
 import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import {
   clearAll,
   constructorSelector
-} from '../../services/constructorIngredientSlice';
+} from '../../services/slices/constructorIngredientSlice';
+import { useDispatch, useSelector } from '../../services/store';
 import {
+  placeNewOrder,
   getOrderModalData,
   getOrderRequest,
   resetOrder
-} from '../../services/newOrderSlice';
-import { isAuthCheckedSelector } from '../../services/userSlice';
+} from '../../services/slices/newOrderSlice';
+import { isAuthCheckedSelector } from '../../services/slices/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
@@ -24,11 +25,18 @@ export const BurgerConstructor: FC = () => {
 
   const onOrderClick = () => {
     if (!isAuth) {
-      navigate('/login');
-      return;
+      return navigate('/login');
     }
     if (!constructorItems.bun || orderRequest) return;
+
+    const orderData = [
+      constructorItems.bun._id,
+      ...constructorItems.ingredients.map((ingredient) => ingredient._id)
+    ];
+
+    dispatch(placeNewOrder(orderData));
   };
+
   const closeOrderModal = () => {
     dispatch(resetOrder());
     dispatch(clearAll());

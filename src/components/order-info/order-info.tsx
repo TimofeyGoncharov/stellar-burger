@@ -2,8 +2,9 @@ import { FC, useEffect, useMemo, useState } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient, TOrder } from '@utils-types';
-import { useSelector } from '../../services/store';
-import { getIngredients } from '../../services/IngredientsSlice';
+import { useDispatch, useSelector } from '../../services/store';
+import { getIngredients } from '../../services/slices/IngredientsSlice';
+import { getOrderModalData } from '../../services/slices/newOrderSlice';
 import { useParams } from 'react-router-dom';
 import { getOrderByNumberApi } from '@api';
 

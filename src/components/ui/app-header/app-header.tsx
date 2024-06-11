@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import styles from './app-header.module.css';
 import { TAppHeaderUIProps } from './type';
-import { Link } from 'react-router-dom';
 import {
   BurgerIcon,
   ListIcon,
   Logo,
   ProfileIcon
 } from '@zlden/react-developer-burger-ui-components';
+import { Link } from 'react-router-dom';
 
 export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
   <header className={styles.header}>

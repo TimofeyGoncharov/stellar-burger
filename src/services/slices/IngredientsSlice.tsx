@@ -1,7 +1,6 @@
-import { getFeedsApi, getIngredientsApi } from '@api';
+import { getIngredientsApi } from '@api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TIngredient } from '@utils-types';
-import { useSelector } from 'react-redux';
 
 export const getIngredientsList = createAsyncThunk(
   'ingredients/getIngredients',
