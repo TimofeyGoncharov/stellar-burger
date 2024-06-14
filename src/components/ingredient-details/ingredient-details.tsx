@@ -1,13 +1,12 @@
 import { FC, useEffect } from 'react';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
-import { useSelector } from 'react-redux';
 import {
   getIngredientsList,
   getIngredientsState
 } from '../../services/slices/IngredientsSlice';
 import { useParams } from 'react-router-dom';
-import { useDispatch } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 
 export const IngredientDetails: FC = () => {
   const dispatch = useDispatch();
