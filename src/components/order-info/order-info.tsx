@@ -1,26 +1,27 @@
-import { FC, useEffect, useMemo, useState } from 'react';
-import { Preloader } from '../ui/preloader';
-import { OrderInfoUI } from '../ui/order-info';
-import { TIngredient, TOrder } from '@utils-types';
-import { useDispatch, useSelector } from '../../services/store';
-import { getIngredients } from '../../services/slices/IngredientsSlice';
-import { getOrderModalData } from '../../services/slices/newOrderSlice';
+import { FC, useEffect, useMemo } from 'react';
+
+import { TIngredient } from '@utils-types';
+import { useDispatch, useSelector } from '@store';
+import { OrderInfoUI, Preloader } from '@ui';
 import { useParams } from 'react-router-dom';
-import { getOrderByNumberApi } from '@api';
+import { fetchOrder } from '@slices';
 
 export const OrderInfo: FC = () => {
-  const [orderData, setOrderData] = useState<TOrder>({
-    _id: '',
-    createdAt: '',
-    ingredients: [],
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
-  });
+  const dispatch = useDispatch();
 
-  const id = Number(useParams().number);
-  const ingredients: TIngredient[] = useSelector(getIngredients);
+  const { number } = useParams<{ number: string }>();
+
+  const { isLoading: isIngredientsLoading, data: ingredients } = useSelector(
+    (state) => state.ingredients
+  );
+
+  const { isOrderLoading, orderModalData: orderData } = useSelector(
+    (state) => state.orders
+  );
+
+  useEffect(() => {
+    dispatch(fetchOrder(Number(number)));
+  }, [dispatch]);
 
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;
@@ -63,14 +64,12 @@ export const OrderInfo: FC = () => {
     };
   }, [orderData, ingredients]);
 
-  useEffect(() => {
-    getOrderByNumberApi(Number(id)).then((data) => {
-      setOrderData(data.orders[0]);
-    });
-  }, []);
+  if (isIngredientsLoading || isOrderLoading) {
+    return <Preloader />;
+  }
 
   if (!orderInfo) {
-    return <Preloader />;
+    return null;
   }
 
   return <OrderInfoUI orderInfo={orderInfo} />;

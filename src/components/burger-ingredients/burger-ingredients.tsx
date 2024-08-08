@@ -1,19 +1,12 @@
-import { useState, useRef, useEffect, FC } from 'react';
+import { useState, useRef, useEffect, FC, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { TIngredient, TTabMode } from '@utils-types';
-import { BurgerIngredientsUI } from '../ui/burger-ingredients';
-import { useSelector } from 'react-redux';
-
-import { useDispatch } from '../../services/store';
-import {
-  getIngredientsList,
-  getIngredientsState
-} from '../../services/slices/IngredientsSlice';
-import { Preloader } from '../ui/preloader';
+import { BurgerIngredientsUI } from '@ui';
+import { useSelector } from '@store';
 
 export const BurgerIngredients: FC = () => {
-  const { ingredients, loading, error } = useSelector(getIngredientsState);
+  const ingredients = useSelector((state) => state.ingredients.data);
 
   const buns = ingredients.filter((ingredient) => ingredient.type === 'bun');
   const mains = ingredients.filter((ingredient) => ingredient.type === 'main');
@@ -48,6 +41,7 @@ export const BurgerIngredients: FC = () => {
     }
   }, [inViewBuns, inViewFilling, inViewSauces]);
 
+  /* В можно лучше: скролл к разделу при клике на таб */
   const onTabClick = (tab: string) => {
     setCurrentTab(tab as TTabMode);
     if (tab === 'bun')
@@ -58,14 +52,6 @@ export const BurgerIngredients: FC = () => {
       titleSaucesRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  if (error) {
-    return <p>Упс... что-то пошло не так...</p>;
-  }
-
-  if (loading) {
-    return <Preloader />;
-  }
-
   return (
     <BurgerIngredientsUI
       currentTab={currentTab}
@@ -75,9 +61,9 @@ export const BurgerIngredients: FC = () => {
       titleBunRef={titleBunRef}
       titleMainRef={titleMainRef}
       titleSaucesRef={titleSaucesRef}
-      bunsRef={bunsRef}
-      mainsRef={mainsRef}
-      saucesRef={saucesRef}
+      bunsRef={bunsRef as any}
+      mainsRef={mainsRef as any}
+      saucesRef={saucesRef as any}
       onTabClick={onTabClick}
     />
   );

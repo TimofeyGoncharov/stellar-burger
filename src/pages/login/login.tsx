@@ -1,30 +1,34 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { LoginUI } from '@ui-pages';
-import { login } from '../../services/slices/userSlice';
-import { useDispatch } from '../../services/store';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from '@store';
+import { login } from '@slices';
 
 export const Login: FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const localStorageEmail = localStorage.getItem('email') ?? '';
+  const { from } = location.state || { from: { pathname: '/' } };
 
-  const [email, setEmail] = useState(localStorageEmail);
+  const { loginError } = useSelector((state) => state.user);
+
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    localStorage.setItem('email', email);
-    dispatch(
-      login({
-        email: email,
-        password: password
-      })
-    );
+
+    try {
+      await dispatch(login({ email, password })).unwrap();
+
+      navigate(from.pathname, { replace: true });
+    } catch (_) {}
   };
 
   return (
     <LoginUI
-      errorText=''
+      errorText={loginError?.message}
       email={email}
       setEmail={setEmail}
       password={password}

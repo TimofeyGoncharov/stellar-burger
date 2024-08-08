@@ -1,46 +1,38 @@
 import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import {
-  clearAll,
-  constructorSelector
-} from '../../services/slices/constructorIngredientSlice';
-import { useDispatch, useSelector } from '../../services/store';
-import {
-  placeNewOrder,
-  getOrderModalData,
-  getOrderRequest,
-  resetOrder
-} from '../../services/slices/newOrderSlice';
-import { isAuthCheckedSelector } from '../../services/slices/userSlice';
+import { useDispatch, useSelector } from '@store';
 import { useNavigate } from 'react-router-dom';
+import { createOrder, resetOrderModalData } from '@slices';
 
 export const BurgerConstructor: FC = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const constructorItems = useSelector(constructorSelector.selectItems);
-  const orderRequest = useSelector(getOrderRequest);
-  const orderModalData = useSelector(getOrderModalData);
-  const isAuth = useSelector(isAuthCheckedSelector);
+  const dispatch = useDispatch();
+
+  const constructorItems = useSelector((state) => state.builder);
+
+  const { isAuthenticated } = useSelector((state) => state.user);
+
+  const { orderRequest, orderModalData } = useSelector((state) => state.orders);
 
   const onOrderClick = () => {
-    if (!isAuth) {
-      return navigate('/login');
-    }
     if (!constructorItems.bun || orderRequest) return;
 
-    const orderData = [
+    if (!isAuthenticated) {
+      return navigate('/login');
+    }
+
+    const data = [
       constructorItems.bun._id,
-      ...constructorItems.ingredients.map((ingredient) => ingredient._id)
+      ...constructorItems.ingredients.map((ingredient) => ingredient._id),
+      constructorItems.bun._id
     ];
 
-    dispatch(placeNewOrder(orderData));
+    dispatch(createOrder(data));
   };
 
   const closeOrderModal = () => {
-    dispatch(resetOrder());
-    dispatch(clearAll());
-    navigate('/');
+    dispatch(resetOrderModalData());
   };
 
   const price = useMemo(
